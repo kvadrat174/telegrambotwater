@@ -1,3 +1,0 @@
-botnew.py
-telebot
-pyTelegramBotAPI
