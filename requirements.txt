@@ -1,2 +1,3 @@
 botnew.py
 telebot
+pyTelegramBotAPI
