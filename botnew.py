@@ -26,25 +26,25 @@ def send_text(message):
         bot.send_message(message.chat.id, 'У вас есть сменная тара?', reply_markup=keyboard2 )
 
     elif message.text.lower() == 'есть тара':
-        bot.register_next_step_handler(message, start)
+        start(message);
     elif message.text.lower() == 'все верно':
         bot.send_message(message.chat.id, 'Спасибо что пользуетесь нашим сервисом, Ваш заказ прибудет точно по расписанию!')
+        start_message(message);
     elif message.text.lower() == 'исправить':
-        bot.register_next_step_handler(message, start)
+        start(message);
     elif message.text.lower() == 'узнать о продукции':
         bot.send_message(message.chat.id, 'Добро пожаловать на наш сайт, там вы найдете ответы на все интересующие вас вопросы' )
         bot.send_message(message.chat.id,'<a href="http://www.vlasovkluch.ru/">Заказать Власов Ключ</a>',
                  parse_mode="HTML")
-        bot.send_message(message.chat.id, 'Будешь брать?',reply_markup=keyboard3 )
+        bot.send_message(message.chat.id, 'Готовы сделать заказ?',reply_markup=keyboard3 )
     elif message.text.lower() == 'что можешь?':
         bot.send_message(message.chat.id, 'Пока учусь, но учусь быстро!', reply_markup=keyboard1)
     elif message.text.lower() == 'да':
-        bot.send_message(message.chat.id, 'Красава, мы ценим наших клиентов!' )
-        bot.send_message(message.chat.id, 'Напишите ваше имя', start(message))
+        start(message);
 
 
     elif message.text.lower() == 'нет':
-        bot.send_message(message.chat.id, 'Подумай хорошо, кожаный ублюдок', reply_markup=keyboard3  )
+        bot.send_message(message.chat.id, 'Всегда рады видеть Вас, удачи!', reply_markup=keyboard1  )
 
 
 
@@ -75,6 +75,6 @@ def get_adress(message):
 def get_botle(message):
     global botle;
     botle = message.text;
-    bot.send_message(message.chat.id, ''name+', вы подтверждаете заказ на '+botle+' бутылки(ок), '+str(surname)+' по адресу '+str(adress)'?', reply_markup=keyboard4)
+    bot.send_message(message.chat.id,''+name+', вы подтверждаете заказ на '+botle+' бутылки(ок), '+str(surname)+' по адресу '+str(adress)+'?', reply_markup=keyboard4)
 
 bot.polling(none_stop=True, interval=0)
