@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import telebot
+import requests
 name = '';
 surname = '';
 adress = '';
@@ -78,4 +79,4 @@ def get_botle(message):
     botle = message.text;
     bot.send_message(message.chat.id, 'Адрес '+str(adress)+', тебя зовут '+name+' '+surname+', '+botle+' бутылки(ок) ?', reply_markup=keyboard4)
 
-bot.polling(none_stop=True, interval=0)
+bot.polling(none_stop=True)
