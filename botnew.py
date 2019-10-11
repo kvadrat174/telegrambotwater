@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 import telebot
-import requests
 name = '';
 surname = '';
 adress = '';
@@ -9,9 +8,9 @@ botle = '';
 
 bot = telebot.TeleBot('989283902:AAG7bG9DCVPKvyWn3ljVZ0h-Vzr0csgazM8')
 keyboard1 = telebot.types.ReplyKeyboardMarkup(True, True)
-keyboard1.row('Привет', 'Пока')
+keyboard1.row('Хочу сделать заказ', 'Узнать о продукции')
 keyboard2 = telebot.types.ReplyKeyboardMarkup(True, True)
-keyboard2.row('Как зовут?', 'Что можешь?')
+keyboard2.row('Есть тара', 'Нет тары')
 keyboard3 = telebot.types.ReplyKeyboardMarkup(True, True)
 keyboard3.row('Да', 'Нет')
 keyboard4 = telebot.types.ReplyKeyboardMarkup(True, True)
@@ -19,22 +18,21 @@ keyboard4.row('Все верно', 'Исправить')
 
 @bot.message_handler(commands=['start'])
 def start_message(message):
-    bot.send_message(message.chat.id, 'Добро пожаловать', reply_markup=keyboard1)
+    bot.send_message(message.chat.id, 'Добро пожаловать в компанию "Власов ключ"', reply_markup=keyboard1)
 
 @bot.message_handler(content_types=['text'])
 def send_text(message):
-    if message.text.lower() == 'привет':
-        bot.send_message(message.chat.id, 'Привет, петушара', reply_markup=keyboard2 )
-    elif message.text.lower() == 'пока':
-        bot.send_message(message.chat.id, 'Уебывай, ихтиандр хуев')
-    elif message.text.lower() == 'здравствуй':
-        bot.send_message(message.chat.id, 'Ну здарова')
-    elif message.text.lower() == 'здарова':
-        bot.send_message(message.chat.id, 'Пизда у коровы')
-    elif message.text.lower() == 'как дела?':
-        bot.send_message(message.chat.id, 'Ахуенно, все работает')
-    elif message.text.lower() == 'как зовут?':
-        bot.send_message(message.chat.id, 'тебя ебать не должно, лучше закажи водичку' )
+    if message.text.lower() == 'хочу сделать заказ':
+        bot.send_message(message.chat.id, 'У вас есть сменная тара?', reply_markup=keyboard2 )
+
+    elif message.text.lower() == 'есть тара':
+        bot.register_next_step_handler(message, start)
+    elif message.text.lower() == 'все верно':
+        bot.send_message(message.chat.id, 'Спасибо что пользуетесь нашим сервисом, Ваш заказ прибудет точно по расписанию!')
+    elif message.text.lower() == 'исправить':
+        bot.register_next_step_handler(message, start)
+    elif message.text.lower() == 'узнать о продукции':
+        bot.send_message(message.chat.id, 'Добро пожаловать на наш сайт, там вы найдете ответы на все интересующие вас вопросы' )
         bot.send_message(message.chat.id,'<a href="http://www.vlasovkluch.ru/">Заказать Власов Ключ</a>',
                  parse_mode="HTML")
         bot.send_message(message.chat.id, 'Будешь брать?',reply_markup=keyboard3 )
@@ -52,14 +50,14 @@ def send_text(message):
 
 @bot.message_handler(content_types=['text'])
 def start(message):
-        bot.send_message(message.chat.id, "Как тебя зовут?");
+        bot.send_message(message.chat.id, "Как Вас зовут?");
         bot.register_next_step_handler(message, get_name); #следующий шаг – функция get_name
 
 
 def get_name(message): #получаем фамилию
     global name;
     name = message.text;
-    bot.send_message(message.chat.id, 'Какая у тебя фамилия?');
+    bot.send_message(message.chat.id, 'На какой день вы хотите заказать доставку?');
     bot.register_next_step_handler(message, get_surname);
 
 def get_surname(message):
@@ -77,6 +75,6 @@ def get_adress(message):
 def get_botle(message):
     global botle;
     botle = message.text;
-    bot.send_message(message.chat.id, 'Адрес '+str(adress)+', тебя зовут '+name+' '+surname+', '+botle+' бутылки(ок) ?', reply_markup=keyboard4)
+    bot.send_message(message.chat.id, ''name+', вы подтверждаете заказ на '+botle+' бутылки(ок), '+str(surname)+' по адресу '+str(adress)'?', reply_markup=keyboard4)
 
-bot.polling(none_stop=True)
+bot.polling(none_stop=True, interval=0)
