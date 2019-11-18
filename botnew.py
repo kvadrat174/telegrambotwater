@@ -18,7 +18,8 @@ keyboard4.row('Все верно', 'Исправить')
 
 @bot.message_handler(commands=['start'])
 def start_message(message):
-    bot.send_message(message.chat.id, 'Добро пожаловать в компанию "Власов ключ"', reply_markup=keyboard1)
+    nm = message.from_user.first_name
+    bot.send_message(message.chat.id, 'Здравствуйте, '+str(nm)', добро пожаловать в компанию "Власов ключ"', reply_markup=keyboard1)
 
 @bot.message_handler(content_types=['text'])
 def send_text(message):
@@ -27,9 +28,11 @@ def send_text(message):
 
     elif message.text.lower() == 'есть тара':
         start(message);
-    elif message.text.lower() == 'все верно':
+    elif message.text.lower() == 'нет тары':
+        start(message);
+    """elif message.text.lower() == 'все верно':
         bot.send_message(message.chat.id, 'Спасибо что пользуетесь нашим сервисом, Ваш заказ прибудет точно по расписанию!')
-        start_message(message);
+        start_message(message);"""
 
     elif message.text.lower() == 'узнать о продукции':
         bot.send_message(message.chat.id, 'Добро пожаловать на наш сайт, там вы найдете ответы на все интересующие вас вопросы' )
