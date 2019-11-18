@@ -58,7 +58,7 @@ def start(message):
 def get_name(message): #получаем фамилию
     global name;
     name = message.text;
-    vodabot.calendar_handler()
+    
     bot.send_message(message.chat.id, 'На какой день вы хотите заказать доставку?');
     bot.register_next_step_handler(message, get_surname);
 
