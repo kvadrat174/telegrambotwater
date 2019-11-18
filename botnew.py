@@ -84,7 +84,7 @@ def get_botle(message):
     keyboard = telebot.types.InlineKeyboardMarkup()
     keyboard.row(telebot.types.InlineKeyboardButton('Да', callback_data='yes'),
                  telebot.types.InlineKeyboardButton('Исправить', callback_data='no'))
-    bot.send_message(message.chat.id,''+name+', вы подтверждаете заказ на '+botle+' бутылки(ок), '+str(surname)+' по адресу '+str(adress)+'?', reply_markup=keyboard)
+    bot.send_message(message.chat.id,''+str(name)+', вы подтверждаете заказ на '+str(botle)+' бутылки(ок), '+str(surname)+' по адресу '+str(adress)+'?', reply_markup=keyboard)
 
 
 @bot.callback_query_handler(func=lambda call: True)
