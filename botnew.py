@@ -19,7 +19,7 @@ keyboard4.row('Все верно', 'Исправить')
 @bot.message_handler(commands=['start'])
 def start_message(message):
     nm = message.from_user.first_name
-    bot.send_message(message.chat.id, 'Здравствуйте, '+str(nm)', добро пожаловать в компанию "Власов ключ"', reply_markup=keyboard1)
+    bot.send_message(message.chat.id, 'Здравствуйте, '+str(nm)+', добро пожаловать в компанию "Власов ключ"', reply_markup=keyboard1)
 
 @bot.message_handler(content_types=['text'])
 def send_text(message):
