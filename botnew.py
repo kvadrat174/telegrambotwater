@@ -30,8 +30,7 @@ def send_text(message):
     elif message.text.lower() == 'все верно':
         bot.send_message(message.chat.id, 'Спасибо что пользуетесь нашим сервисом, Ваш заказ прибудет точно по расписанию!')
         start_message(message);
-    elif message.text.lower() == 'исправить':
-        start(message);
+
     elif message.text.lower() == 'узнать о продукции':
         bot.send_message(message.chat.id, 'Добро пожаловать на наш сайт, там вы найдете ответы на все интересующие вас вопросы' )
         bot.send_message(message.chat.id,'<a href="http://www.vlasovkluch.ru/">Заказать Власов Ключ</a>',
@@ -75,6 +74,23 @@ def get_adress(message):
 def get_botle(message):
     global botle;
     botle = message.text;
-    bot.send_message(message.chat.id,''+name+', вы подтверждаете заказ на '+botle+' бутылки(ок), '+str(surname)+' по адресу '+str(adress)+'?', reply_markup=keyboard4)
+    try:
+        botle = int(message.text)
+
+    except Exception:
+        bot.send_message(message.from_user.id, 'Количество бутылок может содержать только цифры')
+        add_str(message)
+    keyboard = telebot.types.InlineKeyboardMarkup()
+    keyboard.row(telebot.types.InlineKeyboardButton('Да', callback_data='yes'),
+                 telebot.types.InlineKeyboardButton('Исправить', callback_data='no'))
+    bot.send_message(message.chat.id,''+name+', вы подтверждаете заказ на '+botle+' бутылки(ок), '+str(surname)+' по адресу '+str(adress)+'?', reply_markup=keyboard)
+
+
+@bot.callback_query_handler(func=lambda call: True)
+def callback_key(message):
+    if message.data == 'yes':
+        bot.answer_callback_query(message.id, text='Ваш заказ принят и прибудет по расписанию!', show_alert=True, reply_markup=keyboard1)
+    elif message.data == 'no':
+        start(message)
 
 bot.polling(none_stop=True, interval=0)
