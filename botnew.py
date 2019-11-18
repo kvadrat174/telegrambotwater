@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import telebot
+
 name = '';
 surname = '';
 adress = '';
@@ -30,7 +31,7 @@ def send_text(message):
         start(message);
     elif message.text.lower() == 'нет тары':
         start(message);
-    
+
 
     elif message.text.lower() == 'узнать о продукции':
         bot.send_message(message.chat.id, 'Добро пожаловать на наш сайт, там вы найдете ответы на все интересующие вас вопросы' )
@@ -57,6 +58,7 @@ def start(message):
 def get_name(message): #получаем фамилию
     global name;
     name = message.text;
+    vodabot.calendar_handler()
     bot.send_message(message.chat.id, 'На какой день вы хотите заказать доставку?');
     bot.register_next_step_handler(message, get_surname);
 
@@ -90,8 +92,11 @@ def get_botle(message):
 @bot.callback_query_handler(func=lambda call: True)
 def callback_key(message):
     if message.data == 'yes':
-        bot.answer_callback_query(message.id, text='Ваш заказ принят и прибудет по расписанию!', show_alert=True, reply_markup=keyboard1)
+        bot.answer_callback_query(message.id, text='Ваш заказ принят и прибудет по расписанию!', show_alert=True)
+        bot.send_message(message.from_user.id, "Спасибо что пользуетесь нашим сервисом", reply_markup=keyboard1)
     elif message.data == 'no':
-        start(message)
+        bot.answer_callback_query(message.id, text='Заполним все правильно')
+        bot.send_message(message.from_user.id, "Введите корректные данные", reply_markup=keyboard2)
+
 
 bot.polling(none_stop=True, interval=0)
