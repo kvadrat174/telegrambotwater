@@ -30,9 +30,7 @@ def send_text(message):
         start(message);
     elif message.text.lower() == 'нет тары':
         start(message);
-    """elif message.text.lower() == 'все верно':
-        bot.send_message(message.chat.id, 'Спасибо что пользуетесь нашим сервисом, Ваш заказ прибудет точно по расписанию!')
-        start_message(message);"""
+    
 
     elif message.text.lower() == 'узнать о продукции':
         bot.send_message(message.chat.id, 'Добро пожаловать на наш сайт, там вы найдете ответы на все интересующие вас вопросы' )
